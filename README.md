@@ -1,99 +1,61 @@
-## 📖 Introduction & Modular Editions
+# 🎬 DiDiGo StreamRecorder
 
-**DiDiGo StreamRecorder** is a general-purpose browser extension (Manifest V3) and local recording toolkit for modern HLS, LL-HLS (`#EXT-X-PART`), and fMP4 live streams.
+<p align="center">
+  <img src="icons/icon128.png" width="108" height="108" alt="DiDiGo StreamRecorder Logo" />
+</p>
 
-| Edition / Module | Target Use Case | Core Capabilities |
-| :--- | :--- | :--- |
-| **1. 🌐 Standard Browser Extension** | Lightweight, zero-setup stream sniffing & recording inside the browser | M3U8/LL-HLS/DASH detection, `CaptureStream`/`MSE` player capture, **🕵️ Boss/Stealth Mode (`Alt+B`)**, **🔇 Auto-Mute Probed Tabs**, **📨 Discord/Telegram Webhook notifications**, and custom MB/GB auto-split |
-| **2. 🧩 External Add-on Rule Pack (`.json`)** | Hot-updatable site adapter rules without reinstalling the extension | Dynamically imports custom CDN proxy domain whitelists (`proxyDomains`), anti-hotlink headers (`headerRules`), and site-specific DOM selectors (`siteRules`), plus a **🎯 Visual Element Picker** (no DevTools needed) |
-| **3. 🚀 Desktop Pro Engine (`DiDiGo管理中心.exe`)** | Heavy multi-stream background recording & instant dual-track muxing | Native Windows GUI launcher with system tray support, one-click portable FFmpeg auto-setup, **🖼️ automatic 4x4 preview contact sheet (`_preview.jpg`)**, **💾 Live Disk Space Guard**, and `一鍵合併影音.exe` |
+<p align="center">
+  <b>現代直播串流無人值守下載 & 本機錄製中心</b><br>
+  專為 HLS / LL-HLS (<code>#EXT-X-PART</code>) / fMP4 / HTTP-FLV 打造的通用瀏覽器擴充功能與桌面合流引擎
+</p>
 
----
+<p align="center">
+  <a href="README.md"><b>繁體中文</b></a> •
+  <a href="README_EN.md">English</a> •
+  <a href="README_JA.md">日本語</a> •
+  <a href="README_DE.md">Deutsch</a> •
+  <a href="README_RU.md">Русский</a> •
+  <a href="README_ES.md">Español</a> •
+  <a href="README_FR.md">Français</a>
+</p>
 
-## ✨ Key Features
-
-### 1. ⚡ Support for LL-HLS (`#EXT-X-PART`) Streams
-- **Micro-segment parsing**: Reliably captures low-latency HLS chunks including `#EXT-X-PART` tags.
-- **Clean dynamic polling**: Strips obsolete `HLS_msn` and `HLS_part` blocking parameters to prevent CDN timeouts.
-- **Automatic pre-roll ad filtering**: Detects and skips advert tags (`#EXT-X-MOUFLON-ADVERT`) before transitioning to the live stream.
-
-### 2. 📺 Dynamic Stream Quality Adaptation & Resolution Selection
-- **Dynamic adaptation**: Quality chips and selectors adapt dynamically to the stream's actual Master Playlist resolutions (e.g. 1080p, 720p, 480p, or custom aspect ratios) rather than enforcing static hardcoded values.
-- **Smart multi-variant derivation**: Automatically derives available stream variants if only a single sub-playlist is exposed, defaulting to Best Available Quality.
-- **Dynamic quick-switch chips**: Renders clickable chips matching live stream resolutions, with smooth recording transition upon selection.
-
-### 3. 🎯 Multi-Target Tracking & Lightweight 5-Minute Polling (Unattended)
-- **Multi-rule management**: Add target URLs or keyword patterns (wildcards supported, e.g. `domain.com/user*`).
-- **5-Minute inspection throttle**: Inspects targets once every 5 minutes instead of hammering servers continuously, drastically cutting CPU and RAM usage.
-- **Strict anti-recursion**: Enforces a strict one-window lock per page to prevent tab loops.
-
-### 4. 🧠 Smart Screen Monitoring (Live-Start & Private-Stop)
-- **Auto-Watch mode**: Starts recording when playback begins; automatically finalizes and downloads if the stream drops or disconnects with multi-second debounce.
-- **Private Show avoidance**: Detects private performances (Private, Group, VIP, Ticket shows) and terminates recording with explicit reason logging.
-
-### 5. 📦 Custom File Size Auto-Split (Auto-Split by Size)
-- **Configurable thresholds**: Specify split sizes in `MB` or `GB` (e.g. 200 MB, 500 MB, 1 GB; `0` for single file).
-- **Standalone compatibility**: Injects `#EXT-X-MAP` initialization headers (`init.mp4`) into the head of each new fMP4 part for compatibility with standard media players.
-
-### 6. 🔕 Silent Auto-Download
-- **Zero popups**: Integrates directly with the browser's downloads API (`saveAs: false`) to bypass annoying Save-As dialogs.
-- **Normalized filenames**: Organizes files systematically as `[StreamerName]_partX_YYYYMMDD_HHmmss.mp4`.
+<p align="center">
+  <img src="https://img.shields.io/badge/Version-1.4.0-brightgreen.svg?style=flat-square" alt="Version" />
+  <img src="https://img.shields.io/badge/Manifest-V3-blue.svg?style=flat-square" alt="Manifest V3" />
+  <img src="https://img.shields.io/badge/Node.js-20%2B-green.svg?style=flat-square" alt="Node" />
+  <img src="https://img.shields.io/badge/Platform-Chromium%20%7C%20Firefox-orange.svg?style=flat-square" alt="Platform" />
+  <img src="https://img.shields.io/badge/License-MIT-purple.svg?style=flat-square" alt="License" />
+</p>
 
 ---
 
-## 🚀 Installation
+## 🌟 亮點功能 (Highlights)
 
-DiDiGo StreamRecorder is designed for Chromium-based browsers (Brave, Google Chrome, Microsoft Edge). Mozilla Firefox support is currently **experimental / unverified**. For traceable test records, see [`TEST_RECORDS.md`](TEST_RECORDS.md).
+- ⚡ **LL-HLS 微切片完整解析**：原生攔截低延遲微切片 (`#EXT-X-PART`) 與 fMP4 初始化區段 (`#EXT-X-MAP`)，智慧清洗過期參數，平滑錄製不中斷。
+- 🕵️ **旗艦級老闆鍵偽裝 (`Alt + B`)**：一鍵將下載頁面 1:1 偽裝為 **Google Sheets / Excel 財務成本分析表**，標題與圖示同步變更，後台下載照常全速運行。
+- 🎯 **免開 F12 視覺化元素拾取器**：直接在網頁點擊下播或付費提示框，自動反推 CSS 選擇器並匯出為熱更新規則包。
+- 🚀 **Desktop Pro 原生合流雙引擎**：
+  - **`DiDiGoHub.exe`**：Windows 原生系統匣常駐啟動器，全自動配置免安裝 FFmpeg。
+  - **`DiDiGoMuxer.exe`**：極速影音雙軌無損合併，支援拖曳即合。
+- 📦 **自訂大小無損分段存檔**：支援設定 200MB / 500MB / 1GB 或自訂大小自動分卷，各卷皆內嵌初始化頭部，直接播放不損壞。
+- 📨 **多通道遠端即時推播**：支援 Discord / Telegram Webhook，開播錄製與切片完成第一時間推播通知。
 
-### 🦁 Chromium (Brave / Chrome / Edge)
-1. Clone or download the repository:
+---
+
+## 🏗️ 三層模組化架構 (Editions & Architecture)
+
+| 模組版本 | 適用情境 | 核心功能 | 啟動與使用方式 |
+| :--- | :--- | :--- | :--- |
+| **🌐 瀏覽器擴充標準版**<br>*(Standard Extension)* | 免額外軟體、即裝即用 | M3U8 / DASH 嗅探、老闆鍵 (`Alt+B`)、自動靜音巡檢、分段下載 | Chrome / Brave / Edge 載入已解壓擴充功能 |
+| **🧩 站台擴充規則包**<br>*(External Add-on Pack)* | 網站改版免升級外掛 | 動態擴充 CDN 白名單、防盜鏈 Headers、開下播 DOM 偵測規則 | 於「存檔庫」頁籤匯入 `.json` 或使用視覺化拾取器 |
+| **🚀 本機桌面 Pro 引擎**<br>*(Desktop Pro Engine)* | 長時間無人值守、音畫分離合併 | 獨立 FFmpeg 背景錄製、4x4 十六宮格預覽縮圖、硬碟容量警戒安全封裝 | 執行 `DiDiGoHub.exe` 或啟動本機伺服器 |
+
+---
+
+## 🚀 快速安裝與上手 (Quick Start)
+
+### 1. 安裝瀏覽器擴充功能 (Chromium / Brave / Edge)
+
+1. Clone 或下載專案至本機：
    ```bash
    git clone https://github.com/your-username/DiDiGo.git
-   ```
-2. Navigate to extensions management:
-   - **Brave**: `brave://extensions/`
-   - **Chrome**: `chrome://extensions/`
-   - **Edge**: `edge://extensions/`
-3. Toggle on **Developer mode** in the upper right.
-4. Click **Load unpacked** and select the `DiDiGo` directory (containing `manifest.json`).
-
-### 🦊 Mozilla Firefox (Experimental / Unverified)
-1. Open Firefox and go to `about:debugging#/runtime/this-firefox`.
-2. Click **Load Temporary Add-on...**.
-3. Select `manifest.json` from the `DiDiGo` folder.
-*Note: Due to Manifest V3 service worker, `declarativeNetRequest`, and download API variances, Firefox support has not undergone full end-to-end verification and remains experimental.*
-
----
-
-## 💡 Quick Start
-
-### Mode A: Record Current Active Tab
-1. Open any video or live stream page.
-2. Click the **DiDiGo StreamRecorder** icon in the toolbar.
-3. Click **Start Screen Recording** or enable **Auto Detect (Record on Live, Stop on Offline)**.
-4. Video will be recorded and saved silently into your default `Downloads/DiDiGo` folder.
-
-### Mode B: Unattended Multi-Target Tracking
-1. Open the popup and navigate to the **Target Tracker** tab.
-2. Click **Add Current Page to Tracker** or add a custom rule.
-3. Choose your inspection interval (default: Every 5 minutes).
-4. As long as your browser is open, DiDiGo will automatically record and split files whenever the host goes live!
-
-### Mode C: Local FFmpeg Companion App (`DiDiGo管理中心.exe`) & Add-on Packs
-1. Double-click **`DiDiGo管理中心.exe`** (or run from `dist/DiDiGo_Desktop_Pro/`) to start the local companion server on `127.0.0.1:3000` with system tray support and automatic portable FFmpeg setup (`app/bin/ffmpeg.exe`).
-2. Click **"🖥️ Send to DiDiGo App (FFmpeg)"** in the extension popup for multi-stream recording and dual-track muxing, or use **`一鍵合併影音.exe`** to merge separate video/audio files.
-3. Under the **Library** tab, you can also import external **Add-on Rule Packs (`.json`)** (e.g. `addons/live-sites-addon-pack.json`) to dynamically update CDN domain whitelists and DOM status selectors without reinstalling the extension.
-
----
-
-## ⚠️ Disclaimer
-
-- This extension is intended strictly for personal technical analysis, network debugging, and personal offline backup.
-- Users must abide by their local copyright laws and third-party Terms of Service.
-- The developers assume no liability for misuse of this tool.
-
----
-
-## 📄 License
-
-Released under the [MIT License](LICENSE).
